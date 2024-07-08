@@ -11,7 +11,7 @@ function signIn() {
   let params = {
     client_id:
       "174612712651-5rq4a1uco3ftc60t49jvvvpj4l8ikg5m.apps.googleusercontent.com",
-    redirect_uri: "./dashboard.html",
+    redirect_uri: "https://kumaraman6723.github.io/dashboard.html",
     response_type: "token",
     scope:
       "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read",
