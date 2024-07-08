@@ -11,7 +11,7 @@ function signIn() {
   let params = {
     client_id:
       "174612712651-5rq4a1uco3ftc60t49jvvvpj4l8ikg5m.apps.googleusercontent.com",
-    redirect_uri: "http://127.0.0.1:5501/dashboard.html",
+    redirect_uri: "./dashboard.html",
     response_type: "token",
     scope:
       "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read",
@@ -216,23 +216,23 @@ function signOut() {
           .then(function () {
             console.log("User signed out.");
             localStorage.removeItem("authinfo");
-            window.location.href = "https://kumaraman6723.github.io"; // Redirect to login page
+            window.location.href = "./"; // Redirect to login page
           })
           .catch((error) => {
             console.error("Error signing out:", error);
             // Redirect to login page in case of an error during sign-out
-            window.location.href = "https://kumaraman6723.github.io";
+            window.location.href = "./";
           });
       } else {
         console.error("Error revoking token:", response.statusText);
         // Redirect to login page even if token revocation fails
-        window.location.href = "https://kumaraman6723.github.io";
+        window.location.href = "./";
       }
     })
     .catch((error) => {
       console.error("Error revoking token:", error);
       // Redirect to login page in case of an error during token revocation
-      window.location.href = "https://kumaraman6723.github.io";
+      window.location.href = "./";
     });
 }
 document.addEventListener("DOMContentLoaded", function () {
