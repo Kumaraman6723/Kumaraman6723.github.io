@@ -216,23 +216,23 @@ function signOut() {
           .then(function () {
             console.log("User signed out.");
             localStorage.removeItem("authinfo");
-            window.location.href = "https://kumaraman6723.github.io/"; // Redirect to login page
+            window.location.href = "https://kumaraman6723.github.io"; // Redirect to login page
           })
           .catch((error) => {
             console.error("Error signing out:", error);
             // Redirect to login page in case of an error during sign-out
-            window.location.href = "https://kumaraman6723.github.io/";
+            window.location.href = "https://kumaraman6723.github.io";
           });
       } else {
         console.error("Error revoking token:", response.statusText);
         // Redirect to login page even if token revocation fails
-        window.location.href = "https://kumaraman6723.github.io/";
+        window.location.href = "https://kumaraman6723.github.io";
       }
     })
     .catch((error) => {
       console.error("Error revoking token:", error);
       // Redirect to login page in case of an error during token revocation
-      window.location.href = "https://kumaraman6723.github.io/";
+      window.location.href = "https://kumaraman6723.github.io";
     });
 }
 document.addEventListener("DOMContentLoaded", function () {
