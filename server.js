@@ -13,10 +13,11 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "auth_db",
+  host: "auth-db.c5ywgoci6p3e.us-east-1.rds.amazonaws.com",
+  user: "admin",
+  password: "CsSUH3IJwNkF7QAj86HQ",
+  database: "auth-db",
+  port: "3306",
 });
 
 db.connect((err) => {
