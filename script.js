@@ -216,23 +216,23 @@ function signOut() {
           .then(function () {
             console.log("User signed out.");
             localStorage.removeItem("authinfo");
-            window.location.href = "http://127.0.0.1:5501/login.html"; // Redirect to login page
+            window.location.href = "./login.html"; // Redirect to login page
           })
           .catch((error) => {
             console.error("Error signing out:", error);
             // Redirect to login page in case of an error during sign-out
-            window.location.href = "http://127.0.0.1:5501/login.html";
+            window.location.href = "./login.html";
           });
       } else {
         console.error("Error revoking token:", response.statusText);
         // Redirect to login page even if token revocation fails
-        window.location.href = "http://127.0.0.1:5501/login.html";
+        window.location.href = "./login.html";
       }
     })
     .catch((error) => {
       console.error("Error revoking token:", error);
       // Redirect to login page in case of an error during token revocation
-      window.location.href = "http://127.0.0.1:5501/login.html";
+      window.location.href = "./login.html";
     });
 }
 document.addEventListener("DOMContentLoaded", function () {
