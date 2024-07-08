@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Settings Page</title>
+    <!-- Link to external stylesheets -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="fontawesome/css/all.css" />
+    <link rel="stylesheet" href="path/to/intl-tel-input/css/intlTelInput.css" />
+    <style>
+      /* CSS for center-aligning token display */
+      .token-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px; /* Adjust height as needed */
+        border: 1px solid #ccc; /* Example border for clarity */
+        margin-top: 20px; /* Adjust spacing as needed */
+      }
+
+      /* Back to Dashboard button styling */
+      .back-to-dashboard {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 20px 0;
+        background-color: #4caf50; /* Green background color */
+        color: white; /* White text color */
+        text-decoration: none; /* Remove underline */
+        border-radius: 5px; /* Rounded corners */
+        transition: background-color 0.3s ease; /* Smooth transition */
+      }
+
+      .back-to-dashboard:hover {
+        background-color: #45a049; /* Darker green on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Back to Dashboard Button -->
+    <a href="dashboard.html" class="back-to-dashboard">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Left Navigation Box -->
+      <div class="leftbox">
+        <nav>
+          <a onclick="tabs(0)" class="tab active" data-index="0">
+            <img
+              src="https://img.icons8.com/?size=50&id=23264&format=png&color=000000"
+              alt="Custom Tab Icon"
+              style="width: 30px; height: 30px"
+            />
+          </a>
+          <a onclick="tabs(1)" class="tab" data-index="1">
+            <img
+              src="https://img.icons8.com/?size=50&id=53373&format=png&color=000000"
+              alt="Custom Tab Icon"
+              style="width: 30px; height: 30px"
+            />
+          </a>
+          <a onclick="tabs(2)" class="tab" data-index="2">
+            <img
+              src="https://img.icons8.com/?size=50&id=EPPPtsN88vTz&format=png&color=000000"
+              alt="Custom Tab Icon"
+              style="width: 30px; height: 30px"
+            />
+          </a>
+        </nav>
+      </div>
+      <!-- Right Content Box -->
+      <div class="rightbox">
+        <!-- Profile Tab -->
+        <div class="profile tabShow">
+          <h1>Personal Info</h1>
+          <!-- Profile Picture Section -->
+          <div class="profile-picture-container">
+            <img id="image" class="profile-picture" alt="Profile Image" />
+            <div class="edit-profile-picture">
+              <label for="profilePicture" class="edit-profile-label">
+                <i class="fas fa-camera"></i> Change Profile Picture
+              </label>
+              <input
+                type="file"
+                id="profilePicture"
+                accept="image/*"
+                onchange="previewImage(event)"
+              />
+            </div>
+          </div>
+          <!-- Personal Info Form -->
+          <form id="personalInfoForm">
+            <label for="id">Profile ID</label>
+            <input type="text" class="input" id="id" readonly />
+
+            <label for="name">Full Name</label>
+            <input type="text" class="input" id="name" />
+
+            <label for="birthday">Birthday</label>
+            <input type="text" class="input" id="birthday" />
+
+            <label for="gender">Gender</label>
+            <input type="text" class="input" id="gender" />
+
+            <label for="email">Email Address</label>
+            <input type="text" class="input" id="email" />
+
+            <label for="Contact">Contact Number</label>
+            <input type="tel" id="Contact" placeholder="Contact" />
+
+            <!-- Hidden input for storing selected country code -->
+            <input type="hidden" id="countryCode" name="countryCode" />
+
+            <label for="password">Password</label>
+            <input type="password" class="input" id="password" />
+
+            <button type="button" onclick="updateProfile()" class="btn">
+              Update
+            </button>
+          </form>
+        </div>
+        <!-- Organization Tab -->
+        <div class="organization tabHide">
+          <h1>Company Info</h1>
+          <form id="companyInfoForm">
+            <label for="orgName">Organization Name</label>
+            <input type="text" class="input" id="orgName" />
+
+            <label for="position">Position</label>
+            <input type="text" class="input" id="position" />
+
+            <button type="button" onclick="updateCompanyInfo()" class="btn">
+              Update
+            </button>
+          </form>
+        </div>
+        <!-- Token Tab -->
+        <div class="token tabHide">
+          <h1>Token</h1>
+          <button onclick="generateToken()" class="btn">Generate Token</button>
+          <button onclick="fetchToken()" class="btn">Fetch Token</button>
+          <div id="token-display" class="token-display"></div>
+          <button onclick="updateToken()" class="btn">Update Token</button>
+        </div>
+      </div>
+    </div>
+    <!-- Sign-Out Button -->
+    <button onclick="signOut()" class="sign-out-btn">Sign Out</button>
+    <!-- External JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="path/to/intl-tel-input/js/intlTelInput.js"></script>
+    <script src="script.js" defer></script>
+    <script>
+      // Function to fetch token from database
+      async function fetchTokenFromDatabase(email) {
+        try {
+          const response = await fetch(
+            `http://localhost:3001/fetchToken/${email}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const tokenEntity = await response.json();
+          return tokenEntity.token;
+        } catch (error) {
+          console.error("Error fetching token from database:", error);
+          return null;
+        }
+      }
+
+      // Function to fetch company info from database
+      async function fetchCompanyInfoFromDatabase(email) {
+        try {
+          const response = await fetch(
+            `http://localhost:3001/fetchCompanyInfo/${email}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const companyInfo = await response.json();
+          return companyInfo;
+        } catch (error) {
+          console.error("Error fetching company info:", error);
+          return null;
+        }
+      }
+
+      // Function to fetch country code from database
+      async function fetchCountryCodeFromDatabase(email) {
+        try {
+          const response = await fetch(
+            `http://localhost:3001/fetchCountryCode/${email}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const countryCodeData = await response.json();
+          return countryCodeData.countryCode;
+        } catch (error) {
+          console.error("Error fetching country code:", error);
+          return null;
+        }
+      }
+
+      // Function to display user info
+      function displayUserInfo(userInfo) {
+        document.getElementById("id").value = userInfo.id || "";
+        document.getElementById("name").value = userInfo.name || "";
+        document.getElementById("email").value = userInfo.email || "";
+        document.getElementById("gender").value = userInfo.gender || "";
+
+        // Format the birthday using Moment.js
+        const formattedBirthday = userInfo.birthday
+          ? moment(userInfo.birthday).format("YYYY-MM-DD")
+          : "";
+        document.getElementById("birthday").value = formattedBirthday;
+
+        // Set the profile picture
+        document.getElementById("image").src = userInfo.profilepicture || "";
+        document.getElementById("Contact").value = userInfo.contact || "";
+
+        // Fetch and display country code
+        const email = userInfo.email; // Assuming email is available in userInfo
+        if (email) {
+          fetchCountryCodeFromDatabase(email)
+            .then((countryCode) => {
+              if (countryCode) {
+                document.getElementById("countryCode").value = countryCode;
+
+                // Update intl-tel-input library to reflect selected country
+                const input = document.querySelector("#Contact");
+                const iti = window.intlTelInputGlobals.getInstance(input);
+                iti.setCountry(countryCode); // Set the selected country in the intl-tel-input plugin
+              } else {
+                console.log("Country code not found.");
+                document.getElementById("countryCode").value =
+                  "Country code not found";
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching country code:", error);
+              document.getElementById("countryCode").value =
+                "Error fetching country code";
+            });
+        }
+
+        // Ensure to update the display of tabs after populating data
+        const activeTabIndex = document
+          .querySelector(".tab.active")
+          .getAttribute("data-index");
+        tabs(parseInt(activeTabIndex)); // Refresh tab display based on current active tab
+      }
+
+      // Function to display company info
+      function displayCompanyInfo() {
+        const email = document.getElementById("email").value;
+        fetchCompanyInfoFromDatabase(email)
+          .then((companyInfo) => {
+            if (companyInfo) {
+              document.getElementById("orgName").value =
+                companyInfo.orgName || "";
+              document.getElementById("position").value =
+                companyInfo.position || "";
+              // Country code handling in company info
+              document.getElementById("countryCode").value =
+                companyInfo.countryCode || "";
+            } else {
+              console.log("Company info not found.");
+              document.getElementById("orgName").value = "";
+              document.getElementById("position").value = "";
+              document.getElementById("countryCode").value = "";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching company info:", error);
+            document.getElementById("orgName").value = "";
+            document.getElementById("position").value = "";
+            document.getElementById("countryCode").value = "";
+          });
+      }
+
+      // Function to fetch token
+      function fetchToken() {
+        const email = document.getElementById("email").value;
+        fetchTokenFromDatabase(email)
+          .then((token) => {
+            if (token) {
+              document.getElementById(
+                "token-display"
+              ).innerHTML = `<p><strong>Stored Token:</strong> ${token}</p>`;
+            } else {
+              document.getElementById("token-display").innerHTML =
+                "<p>No token found.</p>";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching token:", error);
+            document.getElementById("token-display").innerHTML =
+              "<p>Error fetching token.</p>";
+          });
+      }
+
+      // Function to preview selected image
+      function previewImage(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            document.getElementById("image").src = e.target.result;
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      // Function to handle tab switching
+      function tabs(tabIndex) {
+        const tabs = document.querySelectorAll(".tab");
+        const tabShows = document.querySelectorAll(
+          ".profile, .organization, .token"
+        );
+
+        tabs.forEach((tab, index) => {
+          if (index === tabIndex) {
+            tab.classList.add("active");
+          } else {
+            tab.classList.remove("active");
+          }
+        });
+
+        tabShows.forEach((tabShow, index) => {
+          if (index === tabIndex) {
+            tabShow.classList.remove("tabHide");
+            tabShow.classList.add("tabShow");
+            if (index === 1) {
+              displayCompanyInfo();
+            }
+          } else {
+            tabShow.classList.remove("tabShow");
+            tabShow.classList.add("tabHide");
+          }
+        });
+      }
+
+      const input = document.querySelector("#Contact");
+      const iti = window.intlTelInput(input, {
+        initialCountry: "auto",
+        geoIpLookup: function (callback) {
+          fetch("https://ipapi.co/json")
+            .then(function (res) {
+              return res.json();
+            })
+            .then(function (data) {
+              callback(data.country_code);
+            });
+        },
+      });
+    </script>
+  </body>
+</html>
