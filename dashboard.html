@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style1.css" />
+    <link rel="stylesheet" href="chart-styles.css" />
+    <title>Temp Dashboard</title>
+    <style>
+      .content-section {
+        display: none;
+      }
+      .table-container {
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .notif-content {
+        display: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        max-width: 300px;
+        position: absolute;
+        right: 20px;
+        top: 50px;
+        z-index: 1000;
+        border-radius: 8px;
+      }
+
+      .notif-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .notif-content ul li {
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+        transition: background-color 0.3s;
+      }
+
+      .notif-content ul li:hover {
+        background-color: #f9f9f9;
+      }
+
+      .notif-content ul li:last-child {
+        border-bottom: none;
+      }
+
+      .notif {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .notif .count {
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        border-radius: 50%;
+        padding: 2px 6px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <a href="#" class="logo">
+        <i class="bx bx-code-alt"></i>
+        <div class="logo-name"><span>temp</span></div>
+      </a>
+      <ul class="side-menu">
+        <li>
+          <a href="#" id="dashboard-link"
+            ><i class="bx bxs-dashboard"></i>Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="#" id="shop-link"><i class="bx bx-store-alt"></i>Shop</a>
+        </li>
+        <li class="active">
+          <a href="#" id="analytics-link"
+            ><i class="bx bx-analyse"></i>Analytics</a
+          >
+        </li>
+        <li>
+          <a href="#" id="tickets-link"
+            ><i class="bx bx-message-square-dots"></i>Tickets</a
+          >
+        </li>
+        <li>
+          <a href="#" id="add-device-link"
+            ><i class="bx bx-devices"></i>Add Devices</a
+          >
+        </li>
+        <li>
+          <a href="#" id="view-device-link"
+            ><i class="bx bx-show-alt"></i>View Devices</a
+          >
+        </li>
+        <li>
+          <a href="#" id="settings-link"><i class="bx bx-cog"></i>Settings</a>
+        </li>
+      </ul>
+      <ul class="side-menu">
+        <li>
+          <a href="#" onclick="signOut()" class="logout"
+            ><i class="bx bx-log-out-circle"></i>Logout</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <nav>
+        <i class="bx bx-menu"></i>
+        <form action="#">
+          <div class="form-input">
+            <input type="search" placeholder="Search..." />
+            <button class="search-btn" type="submit">
+              <i class="bx bx-search"></i>
+            </button>
+          </div>
+        </form>
+        <input type="checkbox" id="theme-toggle" hidden />
+        <label for="theme-toggle" class="theme-toggle"></label>
+        <a href="#" class="notif">
+          <i class="bx bx-bell"></i><span class="count">1</span>
+          <div class="notif-content">
+            <ul id="notification-list"></ul>
+          </div>
+        </a>
+        <a href="profile.html" class="profile">
+          <img
+            src="https://img.icons8.com/?size=100&id=rrtYnzKMTlUr&format=png&color=000000"
+            alt="Profile"
+          />
+        </a>
+      </nav>
+      <main>
+        <div class="header" id="clickable-div">
+          <div class="left">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumb"></ul>
+          </div>
+        </div>
+        <div id="dashboard-content" class="content-section">
+          <h2>Dashboard Content</h2>
+          <p>
+            Welcome to the dashboard! Here you can see an overview of your
+            activity.
+          </p>
+        </div>
+        <div id="shop-content" class="content-section">
+          <h2>Shop Content</h2>
+          <p>Here you can browse and purchase products.</p>
+        </div>
+        <div id="analytics-content" class="content-section">
+          <h2>Analytics Content</h2>
+          <div class="chart-container">
+            <h1 class="chart-title">Voltage</h1>
+            <canvas id="voltageChart"></canvas>
+            <div id="voltageTable" class="table-container"></div>
+          </div>
+          <div class="chart-container">
+            <h1 class="chart-title">Current</h1>
+            <canvas id="currentChart"></canvas>
+            <div id="currentTable" class="table-container"></div>
+          </div>
+          <div class="chart-container">
+            <h1 class="chart-title">Power</h1>
+            <canvas id="powerChart"></canvas>
+            <div id="powerTable" class="table-container"></div>
+          </div>
+          <div class="chart-container">
+            <h1 class="chart-title">Brightness Level</h1>
+            <canvas id="brightnessChart"></canvas>
+            <div id="brightnessTable" class="table-container"></div>
+          </div>
+          <div class="chart-container">
+            <h1 class="chart-title">Battery Temperature</h1>
+            <canvas id="batteryChart"></canvas>
+            <div id="batteryTable" class="table-container"></div>
+          </div>
+        </div>
+        <div id="tickets-content" class="content-section">
+          <h2>Tickets Content</h2>
+          <p>Here you can view and manage support tickets.</p>
+        </div>
+        <div id="users-content" class="content-section">
+          <h2>Users Content</h2>
+          <p>Here you can manage user accounts and permissions.</p>
+        </div>
+        <div id="settings-content" class="content-section">
+          <h2>Settings Content</h2>
+          <p>Here you can adjust your account settings and preferences.</p>
+        </div>
+        <div id="device-content" class="content-section">
+          <h2>Add Devices</h2>
+          <form id="device-form">
+            <label for="entityName">Entity Name</label>
+            <input type="text" id="entityName" name="entityName" required />
+            <label for="deviceIMEI">Device IMEI</label>
+            <input type="text" id="deviceIMEI" name="deviceIMEI" required />
+            <label for="simICCId">SIM ICC ID</label>
+            <input type="text" id="simICCId" name="simICCId" required />
+            <label for="batterySLNo">Battery SL No</label>
+            <input type="text" id="batterySLNo" name="batterySLNo" required />
+            <label for="panelSLNo">Panel SL No</label>
+            <input type="text" id="panelSLNo" name="panelSLNo" required />
+            <label for="luminarySLNo">Luminary SL No</label>
+            <input type="text" id="luminarySLNo" name="luminarySLNo" required />
+            <label for="mobileNo">Mobile No</label>
+            <input type="text" id="mobileNo" name="mobileNo" required />
+            <label for="district">District</label>
+            <input type="text" id="district" name="district" required />
+            <label for="panchayat">Panchayat</label>
+            <input type="text" id="panchayat" name="panchayat" required />
+            <label for="block">Block</label>
+            <input type="text" id="block" name="block" required />
+            <label for="wardNo">Ward No</label>
+            <input type="text" id="wardNo" name="wardNo" required />
+            <label for="poleNo">Pole No</label>
+            <input type="text" id="poleNo" name="poleNo" required />
+            <label for="active">Active</label>
+            <select id="active" name="active" required>
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+            <label for="installationDate">Installation Date</label>
+            <input
+              type="date"
+              id="installationDate"
+              name="installationDate"
+              required
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <div id="view-device-content" class="content-section">
+          <h2>View Devices</h2>
+          <div id="device-list"></div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@latest"></script>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Fetch notifications from the external JSON link
+        axios
+          .get("http://127.0.0.1:5500/jsonData.json")
+          .then(function (response) {
+            const notifications = response.data; // Directly using the response data
+            const notificationList =
+              document.getElementById("notification-list");
+
+            // Loop through notifications and append to the list
+            notifications.forEach(function (notification) {
+              if (notification.error === "300") {
+                const listItem = document.createElement("li");
+                listItem.textContent = `Error 300: ${notification.date}`;
+                notificationList.appendChild(listItem);
+              }
+            });
+
+            // Show the notification content if there are notifications
+            if (notificationList.children.length > 0) {
+              document.querySelector(".notif-content").style.display = "block";
+            }
+          });
+
+        // Toggle notification display on click
+        document.querySelector(".notif").addEventListener("click", function () {
+          const notifContent = document.querySelector(".notif-content");
+          notifContent.style.display =
+            notifContent.style.display === "none" ? "block" : "none";
+        });
+      });
+    </script>
+  </body>
+</html>
