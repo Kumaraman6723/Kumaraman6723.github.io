@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style1.css" />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <div class="sidebar">
+      <a href="#" class="logo">
+        <i class="bx bx-code-alt"></i>
+        <div class="logo-name"><span>Admin</span></div>
+      </a>
+      <ul class="side-menu">
+        <li>
+          <a href="#" id="dashboard-link"
+            ><i class="bx bxs-dashboard"></i>Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="log.html" id="user-activity-link"
+            ><i class="bx bx-user"></i>User Activity</a
+          >
+        </li>
+        <li>
+          <a href="#" id="settings-link"><i class="bx bx-cog"></i>Settings</a>
+        </li>
+      </ul>
+      <ul class="side-menu">
+        <li>
+          <a href="#" onclick="signOut()" class="logout"
+            ><i class="bx bx-log-out-circle"></i>Logout</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <nav>
+        <i class="bx bx-menu"></i>
+        <a href="#" class="notif"
+          ><i class="bx bx-bell"></i><span class="count">1</span></a
+        >
+      </nav>
+      <main>
+        <div id="dashboard-content" class="content-section">
+          <h2>Admin Dashboard</h2>
+          <p>Welcome to the admin dashboard!</p>
+        </div>
+        <div
+          id="user-activity-content"
+          class="content-section"
+          style="display: none"
+        >
+          <h2>User Activity</h2>
+          <p>Here you can monitor user activities.</p>
+          <!-- Add logs or user activities display here -->
+        </div>
+        <div
+          id="settings-content"
+          class="content-section"
+          style="display: none"
+        >
+          <h2>Settings</h2>
+          <p>Here you can adjust admin settings.</p>
+        </div>
+      </main>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>

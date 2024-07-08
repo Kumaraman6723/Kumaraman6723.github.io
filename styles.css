@@ -1,0 +1,113 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 1em 0;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.wrapper {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#formContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 0 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.tab button:hover {
+  background-color: #45a049;
+}
+
+.tab button.active {
+  background-color: #45a049;
+}
+
+.tabcontent {
+  display: none;
+  width: 100%;
+}
+
+#UserSignIn,
+#UserSignUp,
+#AdminSignIn {
+  border: 2px solid #2196f3;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #e3f2fd;
+  width: 300px;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="submit"],
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover,
+button:hover {
+  background-color: #45a049;
+}
+
+.google-signin-button {
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #4caf50;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
